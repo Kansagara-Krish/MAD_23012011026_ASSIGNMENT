@@ -5,6 +5,11 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import com.example.mad_23012011026.AddReminderActivity
+
+
+annotation class AddReminderActivity
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -27,7 +32,7 @@ class HomeActivity : AppCompatActivity() {
             // This is the corrected logic:
             // It creates a new Intent to start AddReminderActivity.
             // You will need to create the 'AddReminderActivity.kt' file and its layout next.
-            //val intent = Intent(this, AddReminderActivity::class.java)
+            val intent = Intent(this, AddReminderActivity::class.java)
             startActivity(intent)
         }
     }
