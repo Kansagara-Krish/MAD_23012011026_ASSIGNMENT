@@ -41,15 +41,20 @@
             android:layout_marginTop="24dp" />
 
         <!-- List Placeholder -->
-        <TextView
-            android:id="@+id/reminderPlaceholder"
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You have no reminders today."
-            android:textColor="#95A5A6"
-            android:layout_marginTop="12dp"
-            android:textSize="16sp"
-            android:gravity="center"/>
+            android:layout_marginTop="12dp">
+
+            <LinearLayout
+                android:id="@+id/reminderContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="4dp" />
+        </ScrollView>
+
+
 
         <!-- Add Reminder Button -->
         <Button

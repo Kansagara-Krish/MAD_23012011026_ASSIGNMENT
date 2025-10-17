@@ -10,5 +10,7 @@
     <color name="editTextTextColor">#000000</color>
     <color name="editTextHintColor">#666666</color>
     <color name="editTextBackgroundColor">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="gray">#5D5555</color>
 
 </resources>

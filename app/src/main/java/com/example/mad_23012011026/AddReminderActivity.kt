@@ -43,6 +43,16 @@ class AddReminderActivity : AppCompatActivity() {
             if (title.isEmpty() || date.isEmpty() || time.isEmpty()) {
                 Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show()
             } else {
+                val sharedPrefs = getSharedPreferences("reminders", MODE_PRIVATE)
+                val reminderSet = sharedPrefs.getStringSet("reminderList", mutableSetOf())?.toMutableSet()
+
+                val reminder = "$title\n$date at $time\nCategory: $category"
+                reminderSet?.add(reminder)
+
+                sharedPrefs.edit()
+                    .putStringSet("reminderList", reminderSet)
+                    .apply()
+
                 Toast.makeText(this, "Reminder saved: $title", Toast.LENGTH_SHORT).show()
                 finish()
             }
@@ -86,7 +96,7 @@ class AddReminderActivity : AppCompatActivity() {
 
                 val sdf = SimpleDateFormat("HH:mm", Locale.getDefault())
                 timeEditText.setText(sdf.format(calendar.time))
-            }, hour, minute, true) // 'true' = 24-hour format
+            }, hour, minute, true) // 24-hour format
 
             timePickerDialog.show()
         }

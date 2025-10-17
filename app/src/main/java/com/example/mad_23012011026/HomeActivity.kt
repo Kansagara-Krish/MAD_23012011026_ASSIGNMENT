@@ -1,15 +1,12 @@
-package com.example.mad_23012011026 // Corrected package name to match your file's location
+package com.example.mad_23012011026
 
 import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
-import com.example.mad_23012011026.AddReminderActivity
-
-
-annotation class AddReminderActivity
-
+import com.example.studentreminderapp.AddReminderActivity
 
 class HomeActivity : AppCompatActivity() {
 
@@ -20,20 +17,58 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        // Initialize the views from the layout
         greetingText = findViewById(R.id.greetingText)
         addReminderButton = findViewById(R.id.addReminderButton)
 
-        // Set a welcome message
         greetingText.text = "Hello, Student 👋"
 
-        // Set a click listener for the "Add Reminder" button
         addReminderButton.setOnClickListener {
-            // This is the corrected logic:
-            // It creates a new Intent to start AddReminderActivity.
-            // You will need to create the 'AddReminderActivity.kt' file and its layout next.
             val intent = Intent(this, AddReminderActivity::class.java)
             startActivity(intent)
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        loadReminders()
+    }
+
+    private fun loadReminders() {
+        val reminderContainer = findViewById<LinearLayout>(R.id.reminderContainer)
+        reminderContainer.removeAllViews()
+
+        val sharedPrefs = getSharedPreferences("reminders", MODE_PRIVATE)
+        val reminders = sharedPrefs.getStringSet("reminderList", null)
+
+        if (reminders.isNullOrEmpty()) {
+            val noReminderText = TextView(this).apply {
+                text = "You have no reminders today."
+                setTextColor(resources.getColor(android.R.color.darker_gray))
+                textSize = 16f
+                textAlignment = TextView.TEXT_ALIGNMENT_CENTER
+            }
+            reminderContainer.addView(noReminderText)
+        } else {
+            for (reminder in reminders) {
+                val parts = reminder.split("\n")
+                val title = parts.getOrNull(0) ?: "Title"
+                val dateTime = parts.getOrNull(1) ?: "Date/Time"
+                val category = parts.getOrNull(2) ?: "Category"
+
+                val rowLayout = LinearLayout(this).apply {
+                    orientation = LinearLayout.HORIZONTAL
+                    setPadding(8, 8, 8, 8)
+                }
+
+                val rowText = TextView(this).apply {
+                    text = "$title  |  $dateTime  |  $category"
+                    textSize = 14f
+                    setTextColor(resources.getColor(android.R.color.black))
+                }
+
+                rowLayout.addView(rowText)
+                reminderContainer.addView(rowLayout)
+            }
         }
     }
 }
